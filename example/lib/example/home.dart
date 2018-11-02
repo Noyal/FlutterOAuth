@@ -9,7 +9,6 @@ void main() {
 }
 
 class FlutterView extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -28,7 +27,6 @@ class Main extends StatefulWidget {
 }
 
 class MainState extends State<Main> {
-
   @override
   void initState() {
     super.initState();
@@ -43,10 +41,9 @@ class MainState extends State<Main> {
           new Expanded(
             child: new Center(
                 child: new RaisedButton(
-                  child: new Text("Authorise"),
-                  onPressed: () => authorise(),
-                )
-            ),
+              child: new Text("Authorise"),
+              onPressed: () => authorise(),
+            )),
           ),
         ],
       ),
@@ -62,11 +59,18 @@ class MainState extends State<Main> {
         "http://localhost:8080",
         "code"));
     Token token = await flutterOAuth.performAuthorization();
-    var alert = new AlertDialog(
-      title: new Text("Access Token"),
-      content: new Text(token.accessToken),
-    );
-    showDialog(context: context, child: alert);
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+              title: new Text('Tokens'),
+              content: new SingleChildScrollView(
+                child: new ListBody(
+                  children: <Widget>[
+                    new Text('Access Token : $token'),
+                  ],
+                ),
+              ));
+        });
   }
-
 }

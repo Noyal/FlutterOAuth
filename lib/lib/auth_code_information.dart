@@ -1,4 +1,6 @@
-import 'package:flutter_oauth/lib/model/config.dart';
+
+
+import 'model/config.dart';
 
 class AuthorizationRequest {
 

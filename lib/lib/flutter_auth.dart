@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter_oauth/lib/auth_code_information.dart';
-import 'package:flutter_oauth/lib/model/config.dart';
-import 'package:flutter_oauth/lib/oauth.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+
+import 'auth_code_information.dart';
+import 'model/config.dart';
+import 'oauth.dart';
+
 
 class FlutterOAuth extends OAuth {
   final StreamController<String> onCodeListener = new StreamController();
@@ -35,8 +37,7 @@ class FlutterOAuth extends OAuth {
       });
 
       webView.launch("${requestDetails.url}?$urlParams",
-          clearCookies: requestDetails.clearCookies,
-          fullScreen: requestDetails.fullScreen);
+          clearCookies: requestDetails.clearCookies);
 
       code = await onCode.first;
       close();
@@ -53,7 +54,7 @@ class FlutterOAuth extends OAuth {
   }
 
   Future<HttpServer> createServer() async {
-    final server = await HttpServer.bind(InternetAddress.LOOPBACK_IP_V4, 8080,
+    final server = await HttpServer.bind(InternetAddress.loopbackIPv4, 8080,
         shared: true);
     return server;
   }
@@ -63,7 +64,7 @@ class FlutterOAuth extends OAuth {
       final uri = request.uri;
       request.response
         ..statusCode = 200
-        ..headers.set("Content-Type", ContentType.HTML.mimeType);
+        ..headers.set("Content-Type", ContentType.html.mimeType);
 
       final code = uri.queryParameters["code"];
       final error = uri.queryParameters["error"];
